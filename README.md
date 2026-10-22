@@ -13,7 +13,6 @@ An AI-powered web application that analyzes resumes against job descriptions, id
 - **PDF Report Export:** Download resume analysis reports.
 - **Analysis History:** View, search, and manage previous resume evaluations.
 
-> Note: Features depend on the current implementation and configuration. Verify each feature before presenting it as production-ready.
 
 ## 🛠️ Tech Stack
 
