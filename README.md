@@ -1,163 +1,244 @@
-# 🚀 AI Resume Analyzer – AI-Powered Resume Evaluation System
+# 🚀 AI Resume Analyzer
 
-> A complete, production-ready Full Stack web application built with **Java Spring Boot 3**, **React 18 (Vite)**, **MySQL 8**, **Apache PDFBox**, and **AI Large Language Models (Google Gemini 1.5 Flash / OpenAI GPT-4o-mini)**.
+An AI-powered web application that analyzes resumes against job descriptions, identifies matching and missing skills, and helps candidates improve their resumes for Applicant Tracking Systems (ATS).
 
-Designed specifically for a **Java Full Stack Developer Portfolio** and fresher/junior software engineer interviews.
+## ✨ Features
 
----
+- **User Authentication:** Register and log in securely using password hashing and JWT-based authentication.
+- **Resume Upload:** Upload PDF resumes for text extraction and analysis.
+- **Resume–Job Matching:** Compare resume content with job descriptions and generate an estimated match score.
+- **Skill Gap Analysis:** Identify matching skills, missing skills, and relevant keywords.
+- **Resume Improvement:** Generate suggestions to improve resume bullet points and highlight relevant experience.
+- **Interactive Dashboard:** Visualize evaluation results and skill breakdowns.
+- **PDF Report Export:** Download resume analysis reports.
+- **Analysis History:** View, search, and manage previous resume evaluations.
+
+> Note: Features depend on the current implementation and configuration. Verify each feature before presenting it as production-ready.
+
+## 🛠️ Tech Stack
+
+### Frontend
+- React 18
+- Vite
+- React Router
+- Tailwind CSS
+- Axios
+- Recharts
+- Lucide Icons
+- jsPDF and html2canvas
+
+### Backend
+- Java
+- Spring Boot 3.2.5
+- Spring Security
+- Spring Data JPA
+- Hibernate
+- JWT Authentication
+- Apache PDFBox
+- Maven
+
+### Database and AI
+- MySQL 8.0+
+- Google Gemini API (if configured)
+- OpenAI API (if configured)
 
 ## 🏗️ System Architecture
 
 ```text
-       +-------------------------------------------------------------+
-       |               React 18 + Vite Frontend (SPA)                |
-       |  - React Router v6    - Tailwind CSS UI      - Recharts     |
-       |  - Axios Interceptors - Lucide Icons         - jsPDF Export |
-       +------------------------------+------------------------------+
-                                      |  REST APIs / JSON / Multipart
-                                      v
-       +-------------------------------------------------------------+
-       |             Java Spring Boot 3.2.5 Backend                  |
-       |  - Spring Security 6 (Stateless JWT Filter)                 |
-       |  - Spring Data JPA + Hibernate ORM                          |
-       |  - Apache PDFBox (Resume text & structure extraction)       |
-       |  - AI Service Engine (Google Gemini 1.5 & OpenAI fallback)  |
-       |  - Global Exception Handling & Bean Validation              |
-       +-------------------+--------------------+--------------------+
-                           |                    |
-                           v                    v
-         +--------------------+     +------------------------+
-         |   MySQL 8.0+ DB    |     |  AI LLM Provider API   |
-         |  - users           |     |  - Google Gemini Flash |
-         |  - resume_analyses |     |  - OpenAI GPT-4o-mini  |
-         +--------------------+     +------------------------+
+React + Vite Frontend
+        |
+        | REST API / JSON / Multipart
+        v
+Java + Spring Boot Backend
+        |
+        +------ Spring Security / JWT
+        |
+        +------ Resume PDF Processing
+        |
+        +------ Resume Analysis Service
+        |              |
+        |              v
+        |       AI Provider API
+        |
+        v
+     MySQL Database
 ```
 
----
+## 📂 Project Structure
 
-## 🌟 Key Application Features
+```text
+AI-Resume-Analyzer/
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   ├── package.json
+│   └── vite.config.js
+│
+├── backend/
+│   ├── src/
+│   ├── pom.xml
+│   └── .env.example
+│
+├── database/
+│   ├── schema.sql
+│   └── sample-data.sql
+│
+├── .gitignore
+└── README.md
+```
 
-1. **User Authentication & Authorization**:
-   - Registration and login with BCrypt password hashing.
-   - Stateless JWT tokens (HMAC-SHA256) with Bearer token authentication.
-   - User-scoped data isolation (users can only access their own resume reports).
+The filenames shown above should match the files actually present in the repository.
 
-2. **Resume PDF Text Processing**:
-   - Apache PDFBox text extraction from uploaded PDF resumes.
-   - Scanned PDF detection (flags image-only or unreadable documents).
-   - Server-side MIME validation and file size limit enforcement (10 MB).
+## 📋 Prerequisites
 
-3. **AI Matching & ATS Scoring**:
-   - Compares candidate qualifications directly against job requirements.
-   - Estimated match score (0–100) based on algorithmic and semantic evaluation.
-   - Matching skills vs. missing skill gaps breakdown.
-   - High-impact ATS keyword analysis (keywords found vs. keywords missing).
-   - Bullet point enhancer generating quantified, action-oriented draft rewrites.
+Install the following tools before running the project:
 
-4. **Interactive Visualizations & Export**:
-   - Circular SVG match score gauge.
-   - Recharts competency breakdown across core full-stack domains.
-   - One-click downloadable PDF evaluation reports using `jsPDF` and `html2canvas`.
+- Java JDK 17 or 21, compatible with the backend configuration
+- Node.js and npm
+- MySQL Server 8.0+
+- Git
+- Google Gemini or OpenAI API key, if the selected AI integration requires it
 
-5. **Historical Tracking**:
-   - Searchable and filterable analysis history scoped to the logged-in candidate.
-   - Ability to reopen and delete past reports.
+Check the installations:
 
----
-
-## 📡 Complete REST API Documentation
-
-| Method | Endpoint | Access | Description | Request Body / Params |
-|:---:|---|:---:|---|---|
-| `GET` | `/api/health` | Public | Heartbeat uptime status probe | None |
-| `POST` | `/api/auth/register` | Public | Register candidate account | `RegisterRequest` (JSON) |
-| `POST` | `/api/auth/login` | Public | Authenticate and obtain JWT | `LoginRequest` (JSON) |
-| `GET` | `/api/users/me` | Protected | Get authenticated profile | None (Bearer Token) |
-| `PUT` | `/api/users/me` | Protected | Update name and target role | `UpdateProfileRequest` (JSON) |
-| `PUT` | `/api/users/me/password` | Protected | Change password | `PasswordChangeRequest` (JSON) |
-| `POST` | `/api/analyses` | Protected | Upload PDF & run AI analysis | Multipart (`file`, `targetRole`, `jobDescription`) |
-| `GET` | `/api/analyses` | Protected | List user's analysis history | None (Bearer Token) |
-| `GET` | `/api/analyses/{id}` | Protected | Get specific evaluation report | None (Bearer Token) |
-| `DELETE` | `/api/analyses/{id}` | Protected | Delete evaluation report | None (Bearer Token) |
-
----
-
-## 🛠️ Prerequisites
-
-Verify the following tools are installed on your Windows machine:
-1. **Java Development Kit (JDK) 17 or 21**:
-   ```powershell
-   java -version
-   ```
-2. **Apache Maven 3.8+** (or use the provided `mvnw.cmd`):
-   ```powershell
-   mvn -v
-   ```
-3. **Node.js 18+ and npm 9+**:
-   ```powershell
-   node -v
-   npm -v
-   ```
-4. **MySQL Server 8.0+** running on port `3306`:
-   ```powershell
-   mysql -u root -p
-   ```
-5. **AI API Key** *(Optional - algorithmic fallback included)*:
-   - Google Gemini API key from [Google AI Studio](https://aistudio.google.com/)
-
----
-
-## ⚙️ Step-by-Step Setup Guide (Windows PowerShell)
-
-### Step 1: Initialize MySQL Database
 ```powershell
-# Execute DDL schema:
-Get-Content "d:\AI Resume Anylyzer Project\database\schema.sql" | mysql -u root -p
-
-# (Optional) Seed demo candidate:
-Get-Content "d:\AI Resume Anylyzer Project\database\sample-data.sql" | mysql -u root -p
+java -version
+node -v
+npm -v
 ```
 
-### Step 2: Configure Environment Variables
-In the `backend/` directory, copy `.env.example` to `.env`:
+## ⚙️ Installation and Setup
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/YOUR-USERNAME/AI-Resume-Analyzer.git
+cd AI-Resume-Analyzer
+```
+
+Replace `YOUR-USERNAME` with the actual GitHub username.
+
+### 2. Configure the MySQL Database
+
+Start MySQL and log in:
+
+```bash
+mysql -u root -p
+```
+
+Create the database:
+
+```sql
+CREATE DATABASE resume_analyzer_db;
+```
+
+If the repository includes a `database/schema.sql` file, import it using the instructions provided for your operating system. If Hibernate creates the tables automatically, follow the backend's configured database initialization behavior.
+
+### 3. Configure the Backend
+
+Navigate to the backend directory:
+
 ```powershell
-cd "d:\AI Resume Anylyzer Project\backend"
-Copy-Item .env.example .env
+cd backend
 ```
-Open `.env` and set your MySQL password and Gemini API key:
+
+Create a local `.env` file from `.env.example` if the application uses that file and has a mechanism to load its variables.
+
+Example configuration:
+
 ```ini
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=resume_analyzer_db
+DB_USERNAME=root
 DB_PASSWORD=your_mysql_password
-GEMINI_API_KEY=your_gemini_api_key_here
+GEMINI_API_KEY=your_gemini_api_key
 ```
 
-### Step 3: Run Backend Service
+Replace the placeholders with local values. Never commit real passwords, API keys, or signing secrets to GitHub.
+
+**Important:** Spring Boot does not automatically load every `.env` file. Ensure the project is configured to load these variables, or configure the corresponding Spring properties through environment variables or `application.properties`.
+
+Start the backend from the `backend` directory using the Maven Wrapper if it is configured correctly:
+
 ```powershell
-cd "d:\AI Resume Anylyzer Project\backend"
+.\mvnw.cmd spring-boot:run
+```
 
-# Run tests:
-mvn test
+Alternatively, use an installed Maven version:
 
-# Start Spring Boot:
+```powershell
 mvn spring-boot:run
 ```
-Backend API will be live at `http://localhost:8080/api`.
 
-### Step 4: Run Frontend Development Server
-In a second PowerShell window:
+The backend is expected to run at:
+
+`http://localhost:8080`
+
+API base URL:
+
+`http://localhost:8080/api`
+
+### 4. Configure and Run the Frontend
+
+Open a second terminal:
+
 ```powershell
-cd "d:\AI Resume Anylyzer Project\frontend"
+cd frontend
 npm install
 npm run dev
 ```
-Frontend will be available at **`http://localhost:5173`**.
 
----
+Open the local development URL printed by Vite. By default, it is:
 
-## 🧪 Testing Credentials for Interview Demos
+`http://localhost:5173`
 
-* **Demo Email**: `demo.developer@example.com`
-* **Demo Password**: `Password123!`
-* Or click the **"Demo Sign In (Alex Morgan)"** button on the `/login` page for one-click access!
+Ensure the frontend API proxy or API base URL points to the backend at `http://localhost:8080`.
 
----
+## 📡 API Endpoints
+
+The following table describes the intended API routes. Confirm that each endpoint is implemented in the backend before relying on this documentation.
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/health` | Check backend health |
+| POST | `/api/auth/register` | Register a user |
+| POST | `/api/auth/login` | Authenticate a user |
+| GET | `/api/users/me` | Retrieve the current profile |
+| PUT | `/api/users/me` | Update the current profile |
+| PUT | `/api/users/me/password` | Change the account password |
+| POST | `/api/analyses` | Upload a resume and request analysis |
+| GET | `/api/analyses` | Retrieve analysis history |
+| GET | `/api/analyses/{id}` | Retrieve a specific analysis |
+| DELETE | `/api/analyses/{id}` | Delete an analysis |
+
+Protected endpoints require a valid authentication token if JWT security is enabled.
+
+## 🔐 Security Considerations
+
+- Passwords should be stored using a secure password-hashing algorithm.
+- Protected APIs should validate authentication and authorization.
+- Resume files should be validated for type and size.
+- API keys and database credentials must remain outside the public repository.
+- Resume files and analysis reports may contain personal information and should be handled securely.
+
+## 🧪 Testing
+
+Run backend tests from the `backend` directory:
+
+```powershell
+.\mvnw.cmd test
+```
+
+Run frontend checks using the scripts defined in `frontend/package.json`.
+
+Test registration, login, resume uploads, analysis results, and report exports before publishing a working demo.
+
+## 🚀 Future Improvements
+
+- Add more resume formats and extraction options.
+- Improve resume–job matching and keyword analysis.
+- Expand dashboard analytics.
+- Add automated tests for authentication and resume processing.
+- Deploy the frontend and backend for public access.
 
