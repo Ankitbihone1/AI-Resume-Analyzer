@@ -1,0 +1,42 @@
+# Operating System Files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# IDE and Editor Files
+.idea/
+*.iml
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Environment & Secrets (NEVER COMMIT SENSITIVE KEYS)
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Backend - Java & Spring Boot
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
+backend/*.log
+backend/logs/
+backend/uploads/
+backend/.flattened-pom.xml
+
+# Frontend - Node & Vite
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
+frontend/.pnp
+frontend/.pnp.js
+frontend/coverage/
+
+# Test reports
+TEST-*.xml
+*.prof

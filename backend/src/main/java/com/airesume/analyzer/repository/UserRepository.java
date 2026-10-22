@@ -1,0 +1,19 @@
+package com.airesume.analyzer.repository;
+
+import com.airesume.analyzer.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+/**
+ * UserRepository
+ * Spring Data JPA repository for User entity operations.
+ */
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+
+    Optional<User> findByEmail(String email);
+
+    boolean existsByEmail(String email);
+}
