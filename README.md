@@ -161,10 +161,3 @@ Frontend will be available at **`http://localhost:5173`**.
 
 ---
 
-## 🎯 Technical Interview Discussion Points
-
-When explaining this project to technical interviewers:
-1. **Why Stateless JWT?**: Eliminates server-side session memory overhead, makes the backend horizontally scalable, and pairs seamlessly with modern React Single Page Applications.
-2. **How Scanned PDFs are Handled**: Apache PDFBox parses the text tree. If fewer than 50 characters of readable text are found, the service identifies it as an image-only scan and instructs the user to export a searchable text PDF.
-3. **Security & Data Isolation**: All `/api/analyses` queries strictly enforce `findByIdAndUserId(id, user.getId())`, making it impossible for a candidate to view or delete another candidate's reports.
-4. **AI Reliability & Graceful Degradation**: If external LLM APIs experience rate limits (HTTP 429) or network timeouts, our `AiClientService` activates an algorithmic keyword taxonomy matcher so evaluations never fail.
